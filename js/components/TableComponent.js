@@ -3,25 +3,25 @@ export class TableComponent {
     this.container = document.getElementById(containerId);
     this.onDelete = onDelete;
   }
-
+  // Renders the full table
   render(employees) {
-    this.container.innerHTML = '';
+    this.container.innerHTML = "";
 
-    const table = document.createElement('table');
-    table.className = 'employee-table';
+    const table = document.createElement("table");
+    table.className = "employee-table";
 
     table.appendChild(this.createHeader());
     table.appendChild(this.createBody(employees));
 
     this.container.appendChild(table);
   }
-
+  // Creates table header
   createHeader() {
-    const thead = document.createElement('thead');
-    const row = document.createElement('tr');
+    const thead = document.createElement("thead");
+    const row = document.createElement("tr");
 
-    ['Name', 'Role', 'Department', 'Actions'].forEach(text => {
-      const th = document.createElement('th');
+    ["Name", "Role", "Department", "Actions"].forEach((text) => {
+      const th = document.createElement("th");
       th.textContent = text;
       row.appendChild(th);
     });
@@ -29,24 +29,24 @@ export class TableComponent {
     thead.appendChild(row);
     return thead;
   }
-
+  // Creates table body with employee rows
   createBody(employees) {
-    const tbody = document.createElement('tbody');
+    const tbody = document.createElement("tbody");
 
-    employees.forEach(emp => {
-      const row = document.createElement('tr');
+    employees.forEach((emp) => {
+      const row = document.createElement("tr");
 
       row.appendChild(this.createCell(emp.name));
       row.appendChild(this.createCell(emp.role));
       row.appendChild(this.createCell(emp.department));
 
-      const actionCell = document.createElement('td');
-      const deleteBtn = document.createElement('button');
-      deleteBtn.textContent = 'Delete';
-      deleteBtn.className = 'delete-btn';
+      const actionCell = document.createElement("td");
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.className = "delete-btn";
 
-      deleteBtn.addEventListener('click', () => {
-        if (confirm('Are you sure you want to delete this employee?')) {
+      deleteBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete this employee?")) {
           this.onDelete(emp.id);
         }
       });
@@ -61,37 +61,36 @@ export class TableComponent {
   }
 
   createCell(text) {
-    const td = document.createElement('td');
+    const td = document.createElement("td");
     td.textContent = text;
     return td;
   }
 
-
   //virtual scrolling
   renderVirtual(employees, rowHeight = 44) {
     // Clear container
-    this.container.innerHTML = '';
+    this.container.innerHTML = "";
 
     // Outer scroll area (we use the container itself as scroll host)
     const scrollHost = this.container;
 
     // Spacer simulates full height
-    const spacer = document.createElement('div');
-    spacer.style.position = 'relative';
+    const spacer = document.createElement("div");
+    spacer.style.position = "relative";
     spacer.style.height = `${employees.length * rowHeight}px`;
     scrollHost.appendChild(spacer);
 
     // Table wrapper that will move inside spacer
-    const table = document.createElement('table');
-    table.className = 'employee-table';
-    table.style.position = 'absolute';
-    table.style.top = '0';
-    table.style.left = '0';
-    table.style.right = '0';
+    const table = document.createElement("table");
+    table.className = "employee-table";
+    table.style.position = "absolute";
+    table.style.top = "0";
+    table.style.left = "0";
+    table.style.right = "0";
 
     table.appendChild(this.createHeader());
 
-    const tbody = document.createElement('tbody');
+    const tbody = document.createElement("tbody");
     table.appendChild(tbody);
     spacer.appendChild(table);
 
@@ -107,7 +106,7 @@ export class TableComponent {
       table.style.transform = `translateY(${startIndex * rowHeight}px)`;
 
       // Render only visible rows
-      tbody.innerHTML = '';
+      tbody.innerHTML = "";
       for (let i = startIndex; i < endIndex; i++) {
         const emp = employees[i];
         tbody.appendChild(this.createRow(emp));
@@ -115,10 +114,11 @@ export class TableComponent {
     };
 
     // Keep reference to remove/rebind if needed
-    if (this._onScroll) scrollHost.removeEventListener('scroll', this._onScroll);
+    if (this._onScroll)
+      scrollHost.removeEventListener("scroll", this._onScroll);
 
     this._onScroll = () => renderChunk();
-    scrollHost.addEventListener('scroll', this._onScroll);
+    scrollHost.addEventListener("scroll", this._onScroll);
 
     // Initial render
     scrollHost.scrollTop = 0;
@@ -126,19 +126,19 @@ export class TableComponent {
   }
 
   createRow(emp) {
-    const row = document.createElement('tr');
+    const row = document.createElement("tr");
 
     row.appendChild(this.createCell(emp.name));
     row.appendChild(this.createCell(emp.role));
     row.appendChild(this.createCell(emp.department));
 
-    const actionCell = document.createElement('td');
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete';
-    deleteBtn.className = 'delete-btn';
+    const actionCell = document.createElement("td");
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.className = "delete-btn";
 
-    deleteBtn.addEventListener('click', () => {
-      if (confirm('Are you sure you want to delete this employee?')) {
+    deleteBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to delete this employee?")) {
         this.onDelete(emp.id);
       }
     });
@@ -148,7 +148,4 @@ export class TableComponent {
 
     return row;
   }
-
 }
-
-

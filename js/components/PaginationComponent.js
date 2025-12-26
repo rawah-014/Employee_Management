@@ -3,22 +3,22 @@ export class PaginationComponent {
     this.container = containerElement;
     this.pageChangeCallback = null;
   }
-
+  // Registers a callback to be invoked when the page changes
   onPageChange(callback) {
     this.pageChangeCallback = callback;
   }
 
   render({ totalItems, pageSize, currentPage }) {
-    this.container.innerHTML = '';
+    this.container.innerHTML = "";
 
     const totalPages = Math.ceil(totalItems / pageSize);
     if (totalPages <= 1) return;
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'pagination';
+    const wrapper = document.createElement("div");
+    wrapper.className = "pagination";
 
     // Prev
-    const prevBtn = this.createButton('Prev', currentPage > 1, () => {
+    const prevBtn = this.createButton("Prev", currentPage > 1, () => {
       this.pageChangeCallback?.(currentPage - 1);
     });
     wrapper.appendChild(prevBtn);
@@ -34,14 +34,14 @@ export class PaginationComponent {
 
       if (p === currentPage) {
         btn.disabled = true;
-        btn.classList.add('active');
+        btn.classList.add("active");
       }
 
       wrapper.appendChild(btn);
     }
 
     // Next
-    const nextBtn = this.createButton('Next', currentPage < totalPages, () => {
+    const nextBtn = this.createButton("Next", currentPage < totalPages, () => {
       this.pageChangeCallback?.(currentPage + 1);
     });
     wrapper.appendChild(nextBtn);
@@ -50,10 +50,10 @@ export class PaginationComponent {
   }
 
   createButton(label, enabled, onClick) {
-    const btn = document.createElement('button');
+    const btn = document.createElement("button");
     btn.textContent = label;
     btn.disabled = !enabled;
-    btn.addEventListener('click', onClick);
+    btn.addEventListener("click", onClick);
     return btn;
   }
 }

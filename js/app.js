@@ -11,10 +11,11 @@ import { FilterComponent } from "./components/FilterComponent.js";
 class App {
   constructor() {
     this.dataService = new DataService();
-
+    // pagination state
     this.pageSize = 10;
     this.currentPage = 1;
     this.currentQuery = "";
+    // components
 
     this.table = new TableComponent("tableContainer", (id) => {
       this.dataService.deleteEmployee(id);
@@ -26,9 +27,9 @@ class App {
 
       this.render();
     });
-
+    // search component
     this.search = new SearchComponent(document.getElementById("searchInput"));
-
+    // pagination component
     this.pagination = new PaginationComponent(
       document.getElementById("paginationContainer")
     );
@@ -49,6 +50,7 @@ class App {
     await this.dataService.loadEmployees();
     // build department list from all employees (initial dataset)
     const allEmps = this.dataService.collection.employees;
+    // extract unique departments
     this.filter.setOptions(allEmps.map((e) => e.department));
 
     this.filter.onChange((deps) => {
@@ -56,7 +58,7 @@ class App {
       this.currentPage = 1;
       this.render();
     });
-
+    // setup add employee modal
     this.setupAddEmployeeModal();
 
     this.search.onSearch((query) => {
@@ -76,7 +78,7 @@ class App {
       exportEmployeesToJSON(this.dataService.collection.employees);
     });
   }
-
+  // filtering logic
   getFilteredData() {
     // 1) search first
     let data = this.dataService.search(this.currentQuery);
@@ -90,32 +92,31 @@ class App {
 
     return data;
   }
-
+  // pagination logic
   getPaginatedData(data) {
     const start = (this.currentPage - 1) * this.pageSize;
     return data.slice(start, start + this.pageSize);
   }
-
+  // main render function
   render() {
     const filtered = this.getFilteredData();
     const pageData = this.getPaginatedData(filtered);
 
     // If dataset is large, use virtual scrolling (performance feature)
-if (filtered.length > 50) {
-  // when virtual scrolling is active, we show all filtered rows virtually
-  this.table.renderVirtual(filtered);
-  // pagination becomes less useful here
-  this.pagination.render({ totalItems: 0, pageSize: 1, currentPage: 1 });
-} else {
-  this.table.render(pageData);
-  this.pagination.render({
-    totalItems: filtered.length,
-    pageSize: this.pageSize,
-    currentPage: this.currentPage
-  });
-}
-
-
+    if (filtered.length > 50) {
+      // when virtual scrolling is active, we show all filtered rows virtually
+      this.table.renderVirtual(filtered);
+      // pagination becomes less useful here
+      this.pagination.render({ totalItems: 0, pageSize: 1, currentPage: 1 });
+    } else {
+      this.table.render(pageData);
+      this.pagination.render({
+        totalItems: filtered.length,
+        pageSize: this.pageSize,
+        currentPage: this.currentPage,
+      });
+    }
+    // update pagination
     this.pagination.render({
       totalItems: filtered.length,
       pageSize: this.pageSize,
