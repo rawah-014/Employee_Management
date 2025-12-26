@@ -107,3 +107,59 @@ dialog::backdrop {
   gap: 10px;
   margin-top: 10px;
 }
+
+
+/* ===== Filters ===== */
+#filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.filter-label {
+  font-weight: 600;
+}
+
+/* Styled multi-select */
+#deptFilter {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  min-width: 180px;
+  max-width: 220px;
+  height: 34px;
+
+  padding: 6px 30px 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+
+  cursor: pointer;
+}
+
+/* Hint text */
+#deptFilter option {
+  padding: 6px;
+}
+
+/* Make it look like a dropdown, not a big box */
+#deptFilter[multiple] {
+  height: auto;
+}
+
+/* Clear button */
+#clearDeptFilter {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+
+#tableContainer {
+  height: 420px;          /* fixed viewport height */
+  overflow-y: auto;       /* scroll */
+  background: white;
+  border: 1px solid #ddd;
+}
+

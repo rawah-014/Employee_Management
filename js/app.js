@@ -6,6 +6,7 @@ import {
   exportEmployeesToCSV,
   exportEmployeesToJSON,
 } from "./utils/helpers.js";
+import { FilterComponent } from "./components/FilterComponent.js";
 
 class App {
   constructor() {
@@ -35,10 +36,27 @@ class App {
       this.currentPage = page;
       this.render();
     });
+
+    // department filter
+    this.selectedDepartments = [];
+    this.filter = new FilterComponent(
+      document.getElementById("deptFilter"),
+      document.getElementById("clearDeptFilter")
+    );
   }
 
   async init() {
     await this.dataService.loadEmployees();
+    // build department list from all employees (initial dataset)
+    const allEmps = this.dataService.collection.employees;
+    this.filter.setOptions(allEmps.map((e) => e.department));
+
+    this.filter.onChange((deps) => {
+      this.selectedDepartments = deps;
+      this.currentPage = 1;
+      this.render();
+    });
+
     this.setupAddEmployeeModal();
 
     this.search.onSearch((query) => {
@@ -60,8 +78,17 @@ class App {
   }
 
   getFilteredData() {
-    // search returns employees filtered by name/role/department
-    return this.dataService.search(this.currentQuery);
+    // 1) search first
+    let data = this.dataService.search(this.currentQuery);
+
+    // 2) then department filter
+    if (this.selectedDepartments.length > 0) {
+      data = data.filter((emp) =>
+        this.selectedDepartments.includes(emp.department)
+      );
+    }
+
+    return data;
   }
 
   getPaginatedData(data) {
@@ -73,7 +100,21 @@ class App {
     const filtered = this.getFilteredData();
     const pageData = this.getPaginatedData(filtered);
 
-    this.table.render(pageData);
+    // If dataset is large, use virtual scrolling (performance feature)
+if (filtered.length > 50) {
+  // when virtual scrolling is active, we show all filtered rows virtually
+  this.table.renderVirtual(filtered);
+  // pagination becomes less useful here
+  this.pagination.render({ totalItems: 0, pageSize: 1, currentPage: 1 });
+} else {
+  this.table.render(pageData);
+  this.pagination.render({
+    totalItems: filtered.length,
+    pageSize: this.pageSize,
+    currentPage: this.currentPage
+  });
+}
+
 
     this.pagination.render({
       totalItems: filtered.length,
