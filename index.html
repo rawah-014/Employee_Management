@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Management System</title>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <h1>Employee Management System</h1>
+
+  <!-- Controls Section -->
+  <div id="controls">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search by name or role"
+    />
+
+    <button id="addEmployeeBtn">Add Employee</button>
+
+    <button id="exportCSV">Export CSV</button>
+    <button id="exportJSON">Export JSON</button>
+  </div>
+
+  <!-- Filters (for advanced filtering later) -->
+  <div id="filters">
+    <!-- Multi-select department filter will be injected here -->
+  </div>
+
+  <!-- Table Container -->
+  <div id="tableContainer">
+    <!-- Employee table will be rendered here -->
+  </div>
+
+  <!-- Pagination / Virtual scroll placeholder -->
+  <div id="paginationContainer"></div>
+
+  <!-- Main App Entry -->
+   <!-- add employee dialog-->
+    <!-- Add Employee Modal -->
+<dialog id="employeeDialog">
+  <form id="employeeForm" method="dialog">
+    <h3>Add Employee</h3>
+
+    <label>
+      Name
+      <input type="text" id="empName" required />
+    </label>
+
+    <label>
+      Email
+      <input type="email" id="empEmail" required />
+    </label>
+
+    <label>
+      Role
+      <input type="text" id="empRole" required />
+    </label>
+
+    <label>
+      Department
+      <input type="text" id="empDept" required />
+    </label>
+
+    <div class="modal-actions">
+      <button type="button" id="cancelEmployee">Cancel</button>
+      <button type="submit" id="saveEmployee">Save</button>
+    </div>
+  </form>
+</dialog>
+
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

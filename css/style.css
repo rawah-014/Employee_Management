@@ -1,0 +1,109 @@
+/* ===== Global ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  padding: 20px;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+/* ===== Controls ===== */
+#controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+#controls input {
+  padding: 8px;
+  min-width: 220px;
+}
+
+#controls button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* ===== Filters ===== */
+#filters {
+  margin-bottom: 15px;
+}
+
+/* ===== Table ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+/* ===== Actions ===== */
+.action-btn {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+#paginationContainer {
+  margin-top: 15px;
+  text-align: center;
+}
+
+
+.pagination {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pagination button.active {
+  font-weight: bold;
+}
+
+/*  model style      */
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 16px;
+  width: min(420px, 90vw);
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0,0.35);
+}
+
+#employeeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#employeeForm input {
+  width: 100%;
+  padding: 8px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
